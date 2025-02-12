@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Cotizaciones Mejorado</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="https://drive.google.com/file/d/1NEzAGQIUHOh50Gdg8gseztPCzNSDrvE_/view?usp=drive_link">
+    <!-- Estilos -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            max-width: 150px; /* Ajusta el tamaño del logo */
+            height: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .checkbox-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 50%;
+            align-items: center;
+            display: block;
+            margin: auto;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .preview {
+            background-color: #f4f6f6;
+            padding: 20px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo">
+            <img src="https://www.dropbox.com/scl/fi/0rdjc20gb625ydlnr7dh6/Logo-Azul-Oscuro.png?rlkey=evc1v05y5prwtl9wqy4qfpcsw&st=n15e4xrg&dl=0" alt="Logo de la Agencia">
+        </div>
+
+        <h1>✈️ Generador de Cotizaciones 🏨</h1>
+        
+        <!-- Campos de Entrada -->
+        <div class="input-group">
+            <label>Nombre del Cliente:</label>
+            <input type="text" id="nombre_cliente" placeholder="Ej: María González">
+        </div>
+
+        <div class="input-group">
+            <label>Destino:</label>
+            <input type="text" id="destino" placeholder="Ej: París, Francia">
+        </div>
+
+        <!-- Checkboxes para selección -->
+        <div class="checkbox-group">
+            <label><input type="checkbox" id="incluir_vuelo" checked> Incluir Vuelo</label>
+            <label><input type="checkbox" id="incluir_hotel"> Incluir Hotel</label>
+        </div>
+
+        <!-- Datos del Vuelo -->
+        <div id="vuelo-section">
+            <h3>Datos del Vuelo</h3>
+            <div class="input-group">
+                <label>Fecha de Salida:</label>
+                <input type="date" id="fecha_salida">
+            </div>
+            <div class="input-group">
+                <label>Hora de Salida:</label>
+                <input type="time" id="hora_salida">
+            </div>
+            <div class="input-group">
+                <label>Aeropuerto de Origen:</label>
+                <input type="text" id="aeropuerto_origen" placeholder="Ej: Aeropuerto Internacional JFK">
+            </div>
+            <div class="input-group">
+                <label>Fecha de Regreso:</label>
+                <input type="date" id="fecha_regreso">
+            </div>
+            <div class="input-group">
+                <label>Hora de Regreso:</label>
+                <input type="time" id="hora_regreso">
+            </div>
+            <div class="input-group">
+                <label>Aerolínea:</label>
+                <input type="text" id="aerolinea" placeholder="Ej: Avianca">
+            </div>
+            <div class="input-group">
+                <label>Precio por Persona (USD):</label>
+                <input type="number" id="precio_vuelo" placeholder="Ej: 650">
+            </div>
+        </div>
+
+        <!-- Datos del Hotel -->
+        <div id="hotel-section">
+            <h3>Datos del Hotel</h3>
+            <div class="input-group">
+                <label>Nombre del Hotel:</label>
+                <input type="text" id="nombre_hotel" placeholder="Ej: Hotel Sunshine">
+            </div>
+            <div class="input-group">
+                <label>Tipo de Habitación:</label>
+                <input type="text" id="tipo_habitacion" placeholder="Ej: Habitación Doble Deluxe">
+            </div>
+            <div class="input-group">
+                <label>Fecha de Check-in:</label>
+                <input type="date" id="fecha_checkin">
+            </div>
+            <div class="input-group">
+                <label>Fecha de Check-out:</label>
+                <input type="date" id="fecha_checkout">
+            </div>
+            <div class="input-group">
+                <label>Precio Total del Hotel (USD):</label>
+                <input type="number" id="precio_hotel" placeholder="Ej: 1200">
+            </div>
+        </div>
+
+        <!-- Total del Paquete -->
+        <div class="input-group">
+            <label>Total del Paquete (USD):</label>
+            <input type="text" id="total_paquete" readonly>
+        </div>
+
+        <div class="input-group">
+            <label>Validez de la Cotización:</label>
+            <input type="date" id="validez">
+        </div>
+
+        <button onclick="generarCotizacion()">Generar Cotización</button>
+        <br>
+        <button onclick="copiarTexto()" id="btnCopiar" disabled>Copiar Texto</button>
+
+        <!-- Previsualización -->
+        <div class="preview" id="preview"></div>
+    </div>
+
+    <script>
+        // Ocultar/mostrar secciones según checkboxes
+        document.getElementById('incluir_vuelo').addEventListener('change', function() {
+            document.getElementById('vuelo-section').style.display = this.checked ? 'block' : 'none';
+            calcularTotal();
+        });
+        document.getElementById('incluir_hotel').addEventListener('change', function() {
+            document.getElementById('hotel-section').style.display = this.checked ? 'block' : 'none';
+            calcularTotal();
+        });
+
+        // Calcular total automáticamente
+        function calcularTotal() {
+            const precioVuelo = parseFloat(document.getElementById('precio_vuelo').value) || 0;
+            const precioHotel = parseFloat(document.getElementById('precio_hotel').value) || 0;
+            const total = precioVuelo + precioHotel;
+            document.getElementById('total_paquete').value = `USD $${total.toFixed(2)}`;
+        }
+
+        // Escuchar cambios en precios
+        document.getElementById('precio_vuelo').addEventListener('input', calcularTotal);
+        document.getElementById('precio_hotel').addEventListener('input', calcularTotal);
+
+        // Generar cotización
+        function generarCotizacion() {
+            const datos = {
+                nombre: document.getElementById('nombre_cliente').value,
+                destino: document.getElementById('destino').value,
+                vuelo: {
+                    salida: `${document.getElementById('fecha_salida').value} - ${document.getElementById('hora_salida').value}`,
+                    origen: document.getElementById('aeropuerto_origen').value,
+                    regreso: `${document.getElementById('fecha_regreso').value} - ${document.getElementById('hora_regreso').value}`,
+                    aerolinea: document.getElementById('aerolinea').value,
+                    precio: `USD $${parseFloat(document.getElementById('precio_vuelo').value).toFixed(2)}`
+                },
+                hotel: {
+                    nombre: document.getElementById('nombre_hotel').value,
+                    habitacion: document.getElementById('tipo_habitacion').value,
+                    checkin: document.getElementById('fecha_checkin').value,
+                    checkout: document.getElementById('fecha_checkout').value,
+                    precio: `USD $${parseFloat(document.getElementById('precio_hotel').value).toFixed(2)}`
+                },
+                total: document.getElementById('total_paquete').value,
+                validez: document.getElementById('validez').value
+            };
+
+            let mensaje = `Hola ${datos.nombre},\n\nEs un placer compartir contigo la cotización para tu viaje a ${datos.destino}.\n\n`;
+
+            if (document.getElementById('incluir_vuelo').checked) {
+                mensaje += `**✈️ Vuelos**\n- Salida: ${datos.vuelo.salida} desde ${datos.vuelo.origen}\n- Regreso: ${datos.vuelo.regreso}\n- Aerolínea: ${datos.vuelo.aerolinea}\n- Precio por persona: ${datos.vuelo.precio}\n\n`;
+            }
+
+            if (document.getElementById('incluir_hotel').checked) {
+                mensaje += `**🏨 Hotel**\n- Nombre: ${datos.hotel.nombre}\n- Habitación: ${datos.hotel.habitacion}\n- Check-in: ${datos.hotel.checkin} | Check-out: ${datos.hotel.checkout}\n- Precio total: ${datos.hotel.precio}\n\n`;
+            }
+
+            mensaje += 
+            `**💰 Total del Paquete**: ${datos.total}\n\n**⏳ Validez de la Cotización**: Hasta el ${datos.validez}\n\nSi deseas confirmar o ajustar algún detalle, no dudes en contactarnos.\n\n¡Quedamos atentos a tus comentarios!\n\nSaludos cordiales,\nNaidaly Cohen\nTravelinkeo Agencia de Viajes\n📧 travelinkeo@gmail.com | 📱 +58412 3312314 - 📱 +58412 6080861\n📍 Caracas, Venezuela`;
+
+            document.getElementById('preview').textContent = mensaje;
+            document.getElementById('btnCopiar').disabled = false;
+        }
+
+        // Copiar texto al portapapeles
+        function copiarTexto() {
+            const texto = document.getElementById('preview').textContent;
+            navigator.clipboard.writeText(texto)
+                .then(() => alert('¡Texto copiado! Pégalo en WhatsApp Web/Correo.'))
+                .catch(() => alert('Error al copiar'));
+        }
+
+        // Inicializar
+        document.getElementById('vuelo-section').style.display = 'block';
+        document.getElementById('hotel-section').style.display = 'none';
+    </script>
+</body>
+</html>
